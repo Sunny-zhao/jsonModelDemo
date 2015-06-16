@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
+#import "JSONHTTPClient.h"
+#import "GarDensModel.h"
 
 @interface jsonModelDemoTests : XCTestCase
 
@@ -28,6 +30,25 @@
 - (void)testExample {
     // This is an example of a functional test case.
     XCTAssert(YES, @"Pass");
+    NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:@"1",@"clientid",@"369586",@"openid",@"INw9wwmw32JIiIhTOYr3dw6BhygaTxBG",@"accesstoken", nil];
+    [JSONHTTPClient getJSONFromURLWithString:@"http://api3.ibeiliao.com/teacher/checkin/list" params:dic completion:^(id json, JSONModelError *err) {
+        if (err) {
+            NSLog(@"拉取数据错误");
+        }else
+        {
+            NSError *err = nil;
+         GarDensModel *  kidModel = [[GarDensModel alloc]initWithDictionary:json error:&err];
+            if (err) {
+                NSLog(@"解析错误");
+            }else
+            {
+                NSLog(@"解析结果%@",kidModel);
+            }
+            
+        }
+    }];
+
+    
 }
 
 - (void)testPerformanceExample {
